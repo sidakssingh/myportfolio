@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 25, 47;
+  --background-end-rgb: 10, 25, 47;
+}
+
+@layer base {
+  body {
+    @apply bg-primary text-text-primary;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-text-primary hover:text-accent transition-colors duration-300;
+  }
+  
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-accent mb-4;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-text-primary;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}

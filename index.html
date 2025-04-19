@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidak Singh | Software Engineer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #f8f9fc;
+            --bg-secondary: #ffffff;
+            --accent: #2d5af6;
+            --accent-light: #5b7ef9;
+            --accent-dark: #1a3bc2;
+            --text: #1a1f36;
+            --text-dim: #4f566b;
+            --card-bg: #ffffff;
+            --gradient-start: #2d5af6;
+            --gradient-mid: #5b7ef9;
+            --gradient-end: #8ba4fc;
+            --card-gradient: linear-gradient(135deg, #ffffff, #f8f9fc);
+            --hover-gradient: linear-gradient(135deg, #f8f9fc, #ffffff);
+            --glow: rgba(45, 90, 246, 0.1);
+            --shadow: rgba(45, 90, 246, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            height: 100vh;
+            background-color: var(--bg-secondary);
+            position: fixed;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(79, 86, 107, 0.1);
+            box-shadow: 4px 0 24px var(--shadow);
+        }
+
+        .profile-container {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 
+                0 8px 24px var(--shadow),
+                0 2px 8px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-picture:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 32px var(--shadow),
+                0 4px 12px var(--shadow);
+        }
+
+        .welcome-container {
+            position: relative;
+            height: 40px;
+            margin-top: 1rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            letter-spacing: -0.01em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links {
+            list-style: none;
+            margin-top: 2.5rem;
+        }
+
+        .nav-link {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-primary);
+            transform: translateX(4px);
+        }
+
+        .nav-link a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Update welcome message */
+        .welcome-text {
+            font-weight: 500;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .welcome-text::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .welcome-text:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 300px;
+            padding: 2rem;
+            width: calc(100% - 300px);
+            min-height: 100vh;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-right: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40%;
+            height: 3px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, 
+                var(--accent-light), 
+                var(--accent), 
+                transparent);
+            opacity: 0.5;
+        }
+
+        /* Code-like elements */
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--accent);
+        }
+
+        .code-comment {
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .code-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+        }
+
+        .line-number {
+            color: var(--text-dim);
+            margin-right: 1rem;
+            user-select: none;
+        }
+
+        /* Project Cards */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(145deg, var(--code-bg), var(--bg-secondary));
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+        }
+
+        .project-title {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background-color: var(--code-bg);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Terminal-like typing effect */
+        .typing-text {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid var(--accent);
+            animation: typing 1.5s steps(10, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent) }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .profile-container {
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .contact-info a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            margin: 0 0.5rem;
+        }
+
+        .contact-info a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .contact-info a:hover::after {
+            width: 100%;
+        }
+
+        .experience-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .experience-title {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .experience-company {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .experience-date {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .experience-location {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .section-content {
+            background: var(--card-bg);
+            box-shadow: 
+                0 4px 24px var(--shadow),
+                0 1px 3px var(--shadow);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-content:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 32px var(--shadow),
+                0 2px 6px var(--shadow);
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .section-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .section-content li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .section-content li::before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 86, 107, 0.1);
+        }
+
+        .project-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 12px 32px var(--shadow),
+                0 4px 12px var(--shadow);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title-tech {
+            flex: 1;
+        }
+
+        .project-name {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-name::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            transition: width 0.3s ease;
+        }
+
+        .project-tech {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .project-date {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .experience-item {
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding: 1.5rem;
+            background: var(--card-gradient);
+            border-radius: 8px;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-5px);
+            background: var(--hover-gradient);
+            box-shadow: 
+                0 8px 12px -1px rgba(0, 0, 0, 0.2), 
+                0 4px 8px -1px rgba(0, 0, 0, 0.1),
+                0 0 30px var(--glow);
+        }
+
+        .role-header {
+            margin-bottom: 1rem;
+        }
+
+        .role-title {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .role-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            transition: width 0.3s ease;
+        }
+
+        .role-company {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .role-location {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .skills-section {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .skills-category {
+            padding: 1rem;
+            background: var(--card-gradient);
+            border-radius: 8px;
+            border: 1px solid rgba(157, 78, 221, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skills-category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .skills-title {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .skills-list {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Update the scrollbar for a more modern look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-dark), var(--accent));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--accent), var(--accent-light));
+        }
+
+        /* Add a subtle gradient overlay to the sidebar */
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, 
+                rgba(157, 78, 221, 0.1), 
+                transparent);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="profile-container">
+            <img src="profile.jpeg" alt="Sidak Singh" class="profile-picture">
+            <div class="welcome-container">
+                <div class="welcome-text">Sidak Singh</div>
+            </div>
+            <div class="contact-info">
+                <a href="tel:703-943-6057">703-943-6057</a> |
+                <a href="mailto:sidaksingh@princeton.edu">sidaksingh@princeton.edu</a><br>
+                <a href="https://linkedin.com/in/sidakssingh/">LinkedIn</a> |
+                <a href="https://github.com/sidakssingh">GitHub</a>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="nav-link"><a href="#education">Education</a></li>
+                <li class="nav-link"><a href="#projects">Projects</a></li>
+                <li class="nav-link"><a href="#experience">Experience</a></li>
+                <li class="nav-link"><a href="#leadership">Leadership</a></li>
+                <li class="nav-link"><a href="#skills">Skills</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section id="education" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Education</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="section-content">
+                <h3>Princeton University</h3>
+                <p>B.S.E. in Operations Research and Financial Engineering (Applied Math)</p>
+                <p>GPA: 4.0 | Sep. 2024 – May 2028</p>
+                <p><strong>Minors:</strong> Computer Science, Applied & Computational Mathematics, Statistics & ML, Quantitative Decision Science, Finance</p>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="section-content">
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-title-tech">
+                            <div class="project-name">NutriLens (HackPrinceton Spring '25)</div>
+                            <div class="project-tech">Swift, JavaScript, XCTest, HTML5, CSS3</div>
+                        </div>
+                        <div class="project-date">Mar. 2025 – Mar. 2025</div>
+                    </div>
+                    <ul>
+                        <li>Built app and website that tracks fridge content, recommends recipes, and maps sustainable stores using Google Maps API.</li>
+                        <li>Designed an AI-powered food detection, recipe, and fitness pipeline with Gemini API; 90%+ accuracy from image input.</li>
+                        <li>Selected as 1 of 3 Telora Fellowship Finalists; met solo with founder and YC alum Eliam Medina to refine product vision.</li>
+                    </ul>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-title-tech">
+                            <div class="project-name">Asteroid Audit (HackPrinceton Fall '24)</div>
+                            <div class="project-tech">JavaScript, Unity, SQL, PHP, HTML5, CSS3</div>
+                        </div>
+                        <div class="project-date">Nov. 2024 – Nov. 2024</div>
+                    </div>
+                    <ul>
+                        <li>Developed a robust finance web application and ed. game in 36 hours, incorporating tax, budgeting, and investing tools.</li>
+                        <li>Completed 6 agile dev cycles; used QuickChart API for data visuals and 10+ judges' feedback to deliver a refined result.</li>
+                        <li>Won Capital One's Best Financial Hack Award, competing with 400+ hackers and being evaluated by SWE/Researchers.</li>
+                    </ul>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-title-tech">
+                            <div class="project-name">The Atomic Nature of Matter</div>
+                            <div class="project-tech">Java</div>
+                        </div>
+                        <div class="project-date">Nov. 2024 – Dec. 2024</div>
+                    </div>
+                    <ul>
+                        <li>Recreated Perrin's experiment by analyzing video microscopy data of polystyrene beads to quantify Brownian motion.</li>
+                        <li>Processed 10+ datasets (200 frames) using DFS blob detection with 25-px min (< 1% error rate in movement tracking).</li>
+                        <li>Calculated diffusion constants to derive Boltzmann and Avogadro nums, using < 10 sec runtime and < 10 MB memory.</li>
+                    </ul>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <div class="project-title-tech">
+                            <div class="project-name">Analyzing Decomposition in Sanitation Systems</div>
+                            <div class="project-tech">JSTOR, PubMed, WHO, Excel</div>
+                        </div>
+                        <div class="project-date">Sep. 2022 – Apr. 2023</div>
+                    </div>
+                    <ul>
+                        <li>Applied regression, sensitivity analysis, chi-square analysis, and ANOVA to identify trends driving 3+ sanitation risks.</li>
+                        <li>Placed 1st at the PWC Regional Fair and earned awards from NASA, FWQA, EPA, and U.S. SJWP at the VA State Fair.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="section-content">
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Quantitative Analyst (University Research Intern)</div>
+                        <div class="role-company">Princeton University</div>
+                        <div class="role-location">Princeton, NJ | Feb. 2025 – Present</div>
+                    </div>
+                    <ul>
+                        <li>Conduct research in Prof. Kastl's research group with Ph.D. mentor William Zhao on HFT, order flow, and algo trading.</li>
+                        <li>Co-authoring "The Empirics of Highly Correlated Assets," analyzing portfolio construction and risk management.</li>
+                        <li>Implement statistical methods to model bid-ask midpoints and highlight arbitrage opportunities for various trading pairs.</li>
+                        <li>Utilize Python (pandas) and R for data processing, alongside Excel and Tableau for time-series data visualization.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Software Engineer Intern</div>
+                        <div class="role-company">Ecotera Health</div>
+                        <div class="role-location">Cincinnati, OH | Nov. 2024 – Mar. 2025</div>
+                    </div>
+                    <ul>
+                        <li>Used JavaScript, Python, and more to assess pollution data and provide actionable insights on impacts on 5+ ecosystems.</li>
+                        <li>Researched algorithms (Fourier Transform Analysis, K-Means, etc.) to analyze 100+ data points, finding key patterns.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Project Intern</div>
+                        <div class="role-company">Eternal Memo</div>
+                        <div class="role-location">Cincinnati, OH | Nov. 2024 – Mar. 2025</div>
+                    </div>
+                    <ul>
+                        <li>Designed UI/UX components in Adobe's suite to foster engagement and enhance accessibility for cognitive support apps.</li>
+                        <li>Performed user research, gathering qualitative/quantitative feedback from caregivers and patients to refine key features.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Student Researcher</div>
+                        <div class="role-company">Water Environment Federation</div>
+                        <div class="role-location">Alexandria, VA | July 2024 – Present</div>
+                    </div>
+                    <ul>
+                        <li>Examine projects on sustainability, economic development, and engineering led by the WEF and 75 member groups.</li>
+                        <li>Earned esteemed Olem Scholarship, interviewed advocates, and published research to Princeton's HMEI, reaching 60k.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="leadership" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Leadership</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="section-content">
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Content Team Organizer</div>
+                        <div class="role-company">Envision AI</div>
+                        <div class="role-location">Princeton, NJ | Sep. 2024 – Present</div>
+                    </div>
+                    <ul>
+                        <li>Run a student-led conference to spread information about AI and tech, hosting 6 professionals and 100+ attendees.</li>
+                        <li>Contribute to weekly seminars to analyze 8+ facets of AI research/development such as RL, NLP, and computer vision.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">Finance Team Officer and Computer Science Team Collaborator</div>
+                        <div class="role-company">Princeton Autonomous Vehicle Engineering</div>
+                        <div class="role-location">Princeton, NJ | Sep. 2024 – Present</div>
+                    </div>
+                    <ul>
+                        <li>Build autonomous vehicles for competitions, source connections, and acquired $10,000 funding with 50+ companies.</li>
+                        <li>Analyzed 5+ advanced algorithms and evaluated vision systems against industry benchmarks for performance uplifts.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">President</div>
+                        <div class="role-company">Science National Honor Society</div>
+                        <div class="role-location">Haymarket, VA | Aug. 2021 – May 2024</div>
+                    </div>
+                    <ul>
+                        <li>Directed 50+ members to teach STEM and CS content and run science labs, increasing student participation by 15%.</li>
+                        <li>Advanced digital projects and clever engineering solutions to improve resource efficiency, reducing local waste by 60%.</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="role-header">
+                        <div class="role-title">President</div>
+                        <div class="role-company">Future Business Leaders of America</div>
+                        <div class="role-location">Haymarket, VA | Aug. 2021 – May 2024</div>
+                    </div>
+                    <ul>
+                        <li>Organized speakers, charity drives, and competition events for 75+ members to promote business/marketing knowledge.</li>
+                        <li>Placed 1st in the FBLA regional Business Law objective test, competing against 100+ of NoVa's most skilled students.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Skills</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="section-content">
+                <div class="skills-section">
+                    <div class="skills-category">
+                        <div class="skills-title">Programming</div>
+                        <div class="skills-list">
+                            Java, Python, C#, C, C++, JavaScript, R, SQL, PHP, HTML/CSS, React.js, Node.js, Unity, Azure, AWS
+                        </div>
+                    </div>
+                    <div class="skills-category">
+                        <div class="skills-title">Tools</div>
+                        <div class="skills-list">
+                            VS (Code), Eclipse, Figma, Git, Microsoft 365/Google Services, Adobe Express, AutoCAD, Solidworks, MATLAB
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Reveal animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html> 
