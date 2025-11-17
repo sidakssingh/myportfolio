@@ -282,8 +282,15 @@ section {
 
 .scrolling-grid {
     display: flex;
-    width: calc(380px * 6);
     animation: marquee 40s linear infinite;
+}
+
+#experience .scrolling-grid {
+    width: calc(380px * 7);
+}
+
+#projects .scrolling-grid {
+    width: calc(380px * 4);
 }
 
 .scrolling-wrapper .card {
@@ -544,8 +551,12 @@ footer h2 {
         flex: 0 0 300px;
     }
     
-    .scrolling-grid {
-        width: calc(330px * 6);
+    #experience .scrolling-grid {
+        width: calc(330px * 7);
+    }
+    
+    #projects .scrolling-grid {
+        width: calc(330px * 4);
     }
     
     /* Honor Details Mobile */
