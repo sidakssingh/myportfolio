@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: #0C0C0B;
+  --color-primary: #EDEAE4;
+  --color-secondary: #888480;
+  --color-tertiary: #4A4744;
+
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--font-serif);
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
